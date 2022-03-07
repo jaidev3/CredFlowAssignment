@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom'
-
+import CartItem from '../components/CartItem';
 import styled from  'styled-components'
-function Cart() {
+
+function Cart({value}) {
+ const [cart,setCart] =useState([])
+ useEffect(()=>{
+   setCart(value)
+ },[])
+console.log(cart)
   return (
     <div>
-      <button>Back to home</button>
-      <h1>Cart</h1>
+      <Link to='/'><button>Back to home</button></Link>
+
+     {cart.map((e)=>
+      <CartItem value1={e}/>
+     )} 
+      
+      <h1>Total amount:Rs 1000</h1>
+      <Link to='/checkout'><button>Checkout</button></Link>
     </div>
   )
 }

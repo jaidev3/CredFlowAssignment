@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-
-function ShopList({ value }) {
+function ShopList({value,value2}) {
   // console.log(value);
+  
+  const [cart, setCart] = useState({});
+
+  let handleCart = () => {
+    value2(value)
+    // setCart({...cart, value});
+    console.log(value);
+  };
   return (
     <>
       <Wrapper>
@@ -14,7 +21,7 @@ function ShopList({ value }) {
         Average:{value.rating.average}
         <br />
         {value.rating.reviews}
-        <button>Add to cart</button>
+        <button onClick={()=> handleCart()}>Add to cart</button>
       </Wrapper>
     </>
   );

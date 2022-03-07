@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ShopList from "../components/ShopList";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import list from "../db.json";
 import ReactPaginate from "react-paginate";
 
-function Home() {
+function Home({value}) {
   const [sortf, setSort] = useState("");
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
@@ -23,6 +23,14 @@ function Home() {
   useEffect(() => {
     setData(list);
   }, []);
+//////cart function///////
+const [cart,setCart]=useState([]);
+
+const getData=(e)=>{
+  setCart([...cart,e])
+  value(cart)
+}
+//console.log(cart)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,15 +39,18 @@ function Home() {
     setSearch(e.target.value);
   };
 
-  const handleInput = (e) => {
+  const handleFilter = (e) => {
     setSort(e.target.value);
+    console.log(sortf);
   };
 
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <div>
-        <button>Go to cart</button>
+        <Link to="/cart">
+          <button>Go to cart</button>
+        </Link>
         <form action="" onSubmit={handleSubmit}>
           <input
             onChange={handleSearch}
@@ -47,19 +58,20 @@ function Home() {
             name="search"
             placeholder="search"
           />
-          <br/>
-<label>Filter</label>
+          <br />
+          <label>Filter by rating:</label>
           <select
-            onChange={handleInput}
+            onInput={handleFilter}
             name="location"
             placeholder="choose location"
           >
-            <option value="4.7">rating</option>
-            <option value="4.6">review</option>
+            <option value="4.7">4.7</option>
+            <option value="4.8">4.8</option>
           </select>
         </form>
         <br />
       </div>
+      {/* wine list map */}
       <Wrapper>
         {data
           .filter((e) => {
@@ -67,16 +79,23 @@ function Home() {
             else if (e.winery.toLowerCase().includes(search.toLowerCase())) {
               return e;
             }
+            if (e.rating.average == sortf) return e;
+          })
+          .filter((e) => {
+            if (sortf === "") return e;
+            else if (e.rating.average == sortf) return e;
           })
           .slice(pagesVisited, pagesVisited + usersPerPage)
           .map((e) => {
             return (
               <>
-                <ShopList key={e.id} value={e} />
+                <ShopList key={e.id} value={e} value2={getData} />
               </>
             );
           })}
       </Wrapper>
+
+      {/* pagination */}
       <ReactPaginate
         previousLabel={"Previous"}
         nextLabel={"Next"}
