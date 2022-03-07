@@ -1,16 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
+
 function ShopList({ value }) {
- // console.log(value);
+  // console.log(value);
   return (
     <>
       <Wrapper>
         <Imgwine src={value.image}></Imgwine>
         <p>{value.winery}</p>
+        {value.wine}
+        <br />
         Average:{value.rating.average}
         <br />
         {value.rating.reviews}
+        <button>Add to cart</button>
       </Wrapper>
     </>
   );
@@ -19,14 +23,16 @@ function ShopList({ value }) {
 export default ShopList;
 
 let Wrapper = styled.div`
-  width: 150px;
-  height: 250px;
+  width: 200px;
+  height: 270px;
   margin: auto;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
-  gap: 5px;
   margin-top: 10px;
+  p {
+    margin: 0;
+  }
 `;
 let Imgwine = styled.img`
   width: 100%;
